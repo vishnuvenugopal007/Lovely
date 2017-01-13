@@ -29,6 +29,7 @@
     "express": "^4.14.0",
     "querystring": "^0.2.0",
     "request": "^2.79.0",
+    "slackbots": "^1.0.2",
     "wordfilter": "^0.2.6"
   }
 }
