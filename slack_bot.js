@@ -17,9 +17,13 @@ var bot = controller.spawn({
 
 controller.hears(['hello', 'hi'], 'direct_message,direct_mention,mention', function(bot,message){
   controller.storage.users.get(message.user, function(err, user) {
-    bot.reply(message, 'Hello I\'\m Lovely! How are you?');
+    if(user && user.name) {
+      bot.reply(message, 'What\'\s Up, ' + user.name + '? How are you?');
     }
-  )
+    else{
+      bot.reply(message, 'Hello I\'\m Lovely! How are you?');
+    }
+  })
 })
 controller.hears(['call me (.*)', 'my name is (.*)'], 'direct_message,direct_mention,mention', function(bot, message){
   const name = message.match[1];
