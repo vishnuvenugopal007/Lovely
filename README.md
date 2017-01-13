@@ -1,4 +1,6 @@
 # Lovely
-A Self Help Chat Bot
+A Self Care Chat Bot
+
+Lovely loves you when you forget to love yourself :)
 
 
