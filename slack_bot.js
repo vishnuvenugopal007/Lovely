@@ -1,18 +1,14 @@
 /*eslint no-console: 'off'*/
 /* eslint no-unused-vars: 'off'*/
-if (!process.env.token) {
-  console.log('Error: Specify token in environment');
-  process.exit();
-}
 
-var Botkit = require('botkit');
+const Botkit = require('botkit');
 
 var controller = Botkit.slackbot({
   debug: true,
 })
 
 var bot = controller.spawn({
-  token: process.env.token
+  token: 'xoxb-125148288080-9G05z0Jo6EVcoZlMZUoYG1LV'
 }).startRTM();
 
 controller.hears(['hello', 'hi'], 'direct_message,direct_mention,mention', function(bot,message){
@@ -26,7 +22,12 @@ controller.hears(['hello', 'hi'], 'direct_message,direct_mention,mention', funct
   })
 })
 controller.hears(['call me (.*)', 'my name is (.*)'], 'direct_message,direct_mention,mention', function(bot, message){
+  //Got response null {"ok":true,"channel":"D3PRE3V6E","ts":"1484349146.000035","message":{"type":"message","user":"U3P4C8G2C","text":"Pleased to meet you john. How's your day been?","bot_id":"B3P4C8FL0","ts":"1484349146.000035"}}
+  //{"type":"message","channel":"D3PRE3V6E","user":"U31L7F7UH","text":"my name is Vishnu","ts":"1484348847.000030","team":"T330K6MHV","event":"direct_message","match":["my name is Vishnu","Vishnu"]}
+  console.log('HERE: ' + JSON.stringify(message))
   const name = message.match[1];
+  //Stores name in the second array position of message.
+  // The message itself is stored in the first position based on my testing using the console.log statement above.
   controller.storage.users.get(message.user, function(err, user) {
     if(!user) {
       user = {
