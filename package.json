@@ -2,9 +2,9 @@
   "name": "Project-2",
   "version": "1.0.0",
   "description": "A Self Help Chat Bot",
-  "main": "index.js",
+  "main": "slack_bot.js",
   "scripts": {
-    "start": "node .",
+    "run": "node .",
     "watch": "nodemon ."
   },
   "repository": {
@@ -29,6 +29,7 @@
     "express": "^4.14.0",
     "querystring": "^0.2.0",
     "request": "^2.79.0",
+    "slack-client": "^2.0.6",
     "slackbots": "^1.0.2",
     "wordfilter": "^0.2.6"
   }
