@@ -46,3 +46,19 @@ controller.hears(['call me (.*)', 'my name is (.*)', 'I\'m (.*)'], 'direct_messa
     })
   })
 })
+
+controller.hears(['good', 'great', 'loving life'], 'direct_message,direct_mention,mention', function(bot, message){
+  bot.api.reactions.add({
+    timestamp: message.ts,
+    channel: message.channel,
+    name: 'ok_hand',
+  })
+})
+
+controller.hears(['bad', 'not great', 'sad'], 'direct_message,direct_mention,mention', function(bot, message){
+  bot.api.reactions.add({
+    timestamp: message.ts,
+    channel: message.channel,
+    name: 'slightly-frowning-face',
+  })
+})
