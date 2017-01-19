@@ -2,6 +2,7 @@
 /* eslint no-unused-vars: 'off'*/
 
 const Botkit = require('botkit');
+const JSONParser = require('body-parser')
 
 var controller = Botkit.slackbot({
   debug: true,
@@ -25,9 +26,9 @@ controller.hears(['hello', 'hi', 'hey'], 'direct_message,direct_mention,mention'
     else{
       bot.reply(message, 'Hello I\'m Lovely! How are you?');
     }
-  })
 })
-controller.hears(['call me (.*)', 'my name is (.*)', 'I\'m (.*)'], 'direct_message,direct_mention,mention', function(bot, message){
+
+controller.hears(['call me (.*)', 'my name is (.*)'], 'direct_message,direct_mention,mention', function(bot, message){
   //Got response null {"ok":true,"channel":"D3PRE3V6E","ts":"1484349146.000035","message":{"type":"message","user":"U3P4C8G2C","text":"Pleased to meet you john. How's your day been?","bot_id":"B3P4C8FL0","ts":"1484349146.000035"}}
   //{"type":"message","channel":"D3PRE3V6E","user":"U31L7F7UH","text":"my name is Vishnu","ts":"1484348847.000030","team":"T330K6MHV","event":"direct_message","match":["my name is Vishnu","Vishnu"]}
   console.log('HERE: ' + JSON.stringify(message))
@@ -45,4 +46,30 @@ controller.hears(['call me (.*)', 'my name is (.*)', 'I\'m (.*)'], 'direct_messa
       bot.reply(message, 'Pleased to meet you ' + user.name + '. How\'s your day been?')
     })
   })
+})
+controller.hears(['good', 'fine'], 'direct_message,direct_mention,mention', function(bot, message){
+  bot.api.reactions.add({
+    timestamp: message.ts,
+    channel: message.channel,
+    name: 'thumbsup',
+  })
+
+})
+
+controller.hears(['bad', 'not great'], 'direct_message,direct_mention,mention', function(bot, message){
+  bot.api.reactions.add({
+    timestamp: message.ts,
+    channel: message.channel,
+    name: 'slightly_frowning_face',
+  })
+
+})
+
+controller.hears(['Alright', 'ok'], 'direct_message,direct_mention,mention', function(bot, message){
+  bot.api.reactions.add({
+    timestamp: message.ts,
+    channel: message.channel,
+    name: 'thinking_face',
+  })
+
 })
