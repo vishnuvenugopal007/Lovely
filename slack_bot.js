@@ -51,7 +51,7 @@ controller.hears(['good', 'great', 'loving life'], 'direct_message,direct_mentio
     channel: message.channel,
     name: 'ok_hand',
   })
-  bot.reply(message, 'As Tony the Tiger would say, that\'s GRRRRREAT (like frosted flakes)')
+  bot.reply(message, 'As Tony the Tiger would say, that\'s GRRRRREAT (like frosted flakes).')
 })
 
 controller.hears(['bad', 'not well', 'sad'], 'direct_message,direct_mention,mention', function(bot, message){
@@ -60,7 +60,7 @@ controller.hears(['bad', 'not well', 'sad'], 'direct_message,direct_mention,ment
     channel: message.channel,
     name: 'hushed',
   })
-  bot.reply(message, 'Oh no, what\'s wrong? I\'m here if you want to talk')
+  bot.reply(message, 'Oh no, what\'s wrong? I\'m here if you want to talk about anything.')
 })
 })
 
@@ -70,7 +70,7 @@ controller.hears(['alright', 'fine', 'ok'], 'direct_message,direct_mention,menti
     channel: message.channel,
     name: 'thinking_face',
   })
-  bot.reply(message, 'Hmmm...you sure? Is there anything you want to talk about?')  
+  bot.reply(message, 'Hmmm...you sure? Is there anything you want to talk about?')
 })
 
 controller.hears(['What\'s your name', 'Who are you','What\'s your purpose', 'What do you do'],'direct_message,direct_mention,mention', function(bot, message){
