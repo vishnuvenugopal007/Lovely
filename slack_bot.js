@@ -64,6 +64,14 @@ controller.hears(['bad', 'not well', 'sad'], 'direct_message,direct_mention,ment
 })
 })
 
+controller.hears(['alright', 'fine', 'ok'], 'direct_message,direct_mention,mention', function(bot,message){
+  bot.api.reactions.add({
+    timestamp: message.ts,
+    channel: message.channel,
+    name: 'thinking_face',
+  })
+})
+
 controller.hears(['What\'s your name', 'Who are you','What\'s your purpose', 'What do you do'],'direct_message,direct_mention,mention', function(bot, message){
   bot.api.reactions.add({
     timestamp: message.ts,
