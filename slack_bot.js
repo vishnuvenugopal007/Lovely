@@ -70,6 +70,7 @@ controller.hears(['alright', 'fine', 'ok'], 'direct_message,direct_mention,menti
     channel: message.channel,
     name: 'thinking_face',
   })
+  bot.reply(message, 'Hmmm...you sure? Is there anything you want to talk about?')  
 })
 
 controller.hears(['What\'s your name', 'Who are you','What\'s your purpose', 'What do you do'],'direct_message,direct_mention,mention', function(bot, message){
