@@ -112,16 +112,8 @@ controller.hears(['Can you help me?', 'help', 'help me!'], 'direct_message,direc
   bot.reply(message, 'Sure! what do you need?')
 })
 
-/*
-controller.hears([''], 'direct_message,direct_mention,mention', function(bot,message) {
-  bot.api.reactions.add({
-    timestamp: message.ts,
-    channel: message.channel,
-    name: ''
-  })
-  bot.reply(message, '')
-})
-*/
+//Who are you?
+
 controller.hears(['What\'s your name', 'Who are you','What\'s your purpose', 'What do you do'],'direct_message,direct_mention,mention', function(bot, message){
     console.log('HERE: ' + JSON.stringify(message))
   bot.api.reactions.add({
