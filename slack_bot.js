@@ -3,19 +3,21 @@
 
 const Botkit = require('botkit');
 var controller = Botkit.slackbot({
-  debug: true,
+  debug: false,
 })
 
 var bot = controller.spawn({
-  token: process.env.token
+  token: process.env.token,
 }).startRTM();
 
-controller.hears(['hello', 'hi', 'hey'], 'direct_message,direct_mention,mention', function(bot,message){
+
+controller.hears(['hello', 'hey', 'what\'s up'], 'direct_message,direct_mention,mention', function(bot,message){
+    console.log('HERE: ' + JSON.stringify(message))
   bot.api.reactions.add({
     timestamp: message.ts,
     channel: message.channel,
     name: 'robot_face',
-  })
+  }),
 
   controller.storage.users.get(message.user, function(err, user) {
     if(user && user.name) {
@@ -24,8 +26,26 @@ controller.hears(['hello', 'hi', 'hey'], 'direct_message,direct_mention,mention'
     else{
       bot.reply(message, 'Hello I\'m Lovely! How are you?');
     }
+
+    bot.reply(message,{
+      attachment: {
+        'text': 'Do you mind if I send you some love in the mornings?',
+        'payload':{
+            'buttons': [
+              {
+                'type': 'submit',
+                'title': 'Yes'
+              },
+              {
+                'type' : 'submit',
+                'title': 'No'
+              }
+            ]
+          }
+        }
+    })
 })
-controller.hears(['call me (.*)', 'my name is (.*)', 'I\'m (.*)'], 'direct_message,direct_mention,mention', function(bot, message){
+controller.hears(['call me (.*)', 'my name is (.*)'], 'direct_message,direct_mention,mention', function(bot, message){
   //Got response null {"ok":true,"channel":"D3PRE3V6E","ts":"1484349146.000035","message":{"type":"message","user":"U3P4C8G2C","text":"Pleased to meet you john. How's your day been?","bot_id":"B3P4C8FL0","ts":"1484349146.000035"}}
   //{"type":"message","channel":"D3PRE3V6E","user":"U31L7F7UH","text":"my name is Vishnu","ts":"1484348847.000030","team":"T330K6MHV","event":"direct_message","match":["my name is Vishnu","Vishnu"]}
   console.log('HERE: ' + JSON.stringify(message))
@@ -46,15 +66,17 @@ controller.hears(['call me (.*)', 'my name is (.*)', 'I\'m (.*)'], 'direct_messa
 })
 
 controller.hears(['good', 'great', 'loving life'], 'direct_message,direct_mention,mention', function(bot, message){
+  console.log('HERE: ' + JSON.stringify(message))
   bot.api.reactions.add({
     timestamp: message.ts,
     channel: message.channel,
-    name: 'ok_hand',
+    name: 'ok_hand::skin-tone-5',
   })
   bot.reply(message, 'As Tony the Tiger would say, that\'s GRRRRREAT (like frosted flakes).')
 })
 
 controller.hears(['bad', 'not well', 'sad'], 'direct_message,direct_mention,mention', function(bot, message){
+  console.log('HERE: ' + JSON.stringify(message))
   bot.api.reactions.add({
     timestamp: message.ts,
     channel: message.channel,
@@ -65,6 +87,7 @@ controller.hears(['bad', 'not well', 'sad'], 'direct_message,direct_mention,ment
 })
 
 controller.hears(['alright', 'fine', 'ok'], 'direct_message,direct_mention,mention', function(bot,message){
+  console.log('HERE: ' + JSON.stringify(message))
   bot.api.reactions.add({
     timestamp: message.ts,
     channel: message.channel,
@@ -73,11 +96,116 @@ controller.hears(['alright', 'fine', 'ok'], 'direct_message,direct_mention,menti
   bot.reply(message, 'Hmmm...you sure? Is there anything you want to talk about?')
 })
 
+controller.hears(['Can you help me?', 'help', 'help me!'], 'direct_message,direct_mention, mention', function(bot, message){
+  console.log('HERE: ' + JSON.stringify(message))
+  bot.api.reactions.add({
+    timestamp: message.ts,
+    channel: message.channel,
+    name: 'ok_hand::skin-tone-5',
+  })
+  bot.api.reactions.add({
+    timestamp: message.ts,
+    channel: message.channel,
+    name: 'thumbsup::skin-tone-5',
+  })
+
+  bot.reply(message, 'Sure! what do you need?')
+})
+
+//Who are you?
+
 controller.hears(['What\'s your name', 'Who are you','What\'s your purpose', 'What do you do'],'direct_message,direct_mention,mention', function(bot, message){
+    console.log('HERE: ' + JSON.stringify(message))
   bot.api.reactions.add({
     timestamp: message.ts,
     channel: message.channel,
     name: 'hugging_face',
   })
   bot.reply(message, 'My name is Lovely, and my job is to help you remember to love yourself <3')
+})
+
+//Music suggestion functionality
+
+controller.hears(['I need some music', 'Can you send me some music?'], 'direct_message,direct_mention,mention', function(bot, message){
+    console.log('HERE: ' + JSON.stringify(message))
+  bot.api.reactions.add({
+    timestamp: message.ts,
+    channel: message.channel,
+    name: 'ok_hand::skin-tone-5',
+  })
+  bot.api.reactions.add({
+    timestamp: message.ts,
+    channel: message.channel,
+    name: 'thinking_face'
+  })
+  bot.reply(message, 'You know I got you! What kind of music are you looking for?')
+
+})
+
+//Hip-Hop & Rap
+
+controller.hears(['hip-hop', 'hip hop', 'rap'], 'direct_message,direct_mention,mention', function(bot,message){
+  console.log('HERE: ' + JSON.stringify(message))
+  bot.api.reactions.add({
+    timestamp: message.ts,
+    channel: message.channel,
+    name: 'thinking_face'
+  })
+  bot.api.reactions.add({
+    timestamp: message.ts,
+    channel: message.channel,
+    name: 'bulb'
+  })
+  bot.reply(message, 'For sure, check out this playlist: <https://www.youtube.com/playlist?list=PLpHBQZMQf9d5g_gvLsQtvENgahwd5vdwX | Lovely Hip hop>')
+})
+
+//Pop & Top 40 & Radio
+
+controller.hears(['pop', 'top 40', 'radio'], 'direct_message,direct_mention,mention', function(bot, message){
+  console.log('HERE: ' + JSON.stringify(message))
+  bot.api.reactions.add({
+    timestamp: message.ts,
+    channel: message.channel,
+    name: 'thinking_face'
+    })
+  bot.api.reactions.add({
+    timestamp: message.ts,
+    channel: message.channel,
+    name: 'bulb'
+  })
+  bot.reply(message, 'Ok, let me know what you think of this: <https://www.youtube.com/playlist?list=PLpHBQZMQf9d7CB50Q450W6G-vm4fto88k | Lovely Pop>')
+})
+
+//Poetry & Slam Poetry
+
+controller.hears(['spoken word', 'poetry', 'slam poetry', 'poems'], 'direct_message,direct_mention,mention', function(bot, message){
+  console.log('HERE: ' + JSON.stringify(message))
+  bot.api.reactions.add({
+    timestamp: message.ts,
+    channel: message.channel,
+    name: 'thinking_face'
+  })
+  bot.api.reactions.add({
+    timestamp: message.ts,
+    channel: message.channel,
+    name: 'bulb'
+  })
+  bot.reply(message, 'Yaaaaaas. Maybe this will get you snapping : <https://www.youtube.com/playlist?list=PLpHBQZMQf9d7t123LqvNGhXcgr7yGlCJd | Lovely Spoken Word>')
+})
+
+//R&B/Soul
+
+controller.hears(['R & B', 'Rhythm and Blues', 'Soul', 'Neo-Soul'], 'direct_message,direct_mention,mention', function(bot, message) {
+  console.log('HERE: ' + JSON.stringify(message))
+  bot.api.reactions.add({
+    timestamp: message.ts,
+    channel: message.channel,
+    name: 'thinking_face'
+  })
+  bot.api.reactions.add({
+    timestamp: message.ts,
+    channel: message.channel,
+    name: 'bulb'
+  })
+  bot.reply(message, 'Oooh I see you. Maybe this will help you find your own smooth operator: <https://www.youtube.com/playlist?list=PLpHBQZMQf9d5CH-upXX6J9lrzAcx_WSKX | Lovely R&B/Soul>')
 })
