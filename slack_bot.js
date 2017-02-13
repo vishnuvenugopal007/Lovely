@@ -105,10 +105,10 @@ controller.hears(['What\'s your name', 'Who are you','What\'s your purpose', 'Wh
   bot.reply(message, 'My name is Lovely, and my job is to help you remember to love yourself :heart:')
   setTimeout(function() {
     bot.reply(message, 'I can also send you some :fire: music.')
-  }, 3000)
+  }, 2000)
   setTimeout(function() {
     bot.reply(message, 'Lastly, if you need a lovely reminder or some advice, just let me know by saying `I need a reminder` or `I need some advice`')
-  }, 5000)
+  }, 3000)
 })
 
 //Reminder & Advice functionality
@@ -146,6 +146,8 @@ controller.hears([ 'I need a reminder', 'Remind me of my worth'], 'direct_messag
     name: 'heartpulse'
   })
 
+  const randomReminder = reminders[Math.floor(Math.random() * reminders.length)]
+
   bot.reply(message, randomReminder)
 })
 
@@ -160,12 +162,13 @@ controller.hears([ 'I need some advice' ], 'direct_message,direct_mention,mentio
         timestamp: message.ts,
         channel: message.channel,
         name: 'bulb'
-    }), 3000})
+    }), 2000})
 
+  const randomAdvice = advice[Math.floor(Math.random() * advice.length)]
 
   setTimeout(function() {
     bot.reply(message, randomAdvice)
-  }, 5000)
+  }, 3000)
 })
 
 //Music suggestion functionality
