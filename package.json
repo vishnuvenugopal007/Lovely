@@ -24,8 +24,6 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "botkit": "^0.4.9",
-    "debug": "^2.6.0",
-    "express": "^4.14.0",
-    "node-wit": "file:node-wit",
-  },
+    "debug": "^2.6.0"
+  }
 }
