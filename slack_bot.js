@@ -1,5 +1,7 @@
 /* eslint no-console: 'off' */
 /* eslint no-unused-vars: 'off'*/
+const db = require('./Database')
+
 const Botkit = require('botkit');
 var controller = Botkit.slackbot({
   debug: false,
@@ -9,6 +11,10 @@ var bot = controller.spawn({
   token: process.env.token,
 }).startRTM();
 
+const getRandom = (responses) => {
+  const response = responses[Math.floor(Math.random() * responses.length)]
+  return response.response
+}
 
 controller.hears(['hello', 'hey', 'what\'s up'], 'direct_message,direct_mention,mention', function(bot,message){
     console.log('HERE: ' + JSON.stringify(message))
@@ -27,12 +33,9 @@ controller.hears(['hello', 'hey', 'what\'s up'], 'direct_message,direct_mention,
     }
 })
 controller.hears(['call me (.*)', 'my name is (.*)'], 'direct_message,direct_mention,mention', function(bot, message){
-  //Got response null {"ok":true,"channel":"D3PRE3V6E","ts":"1484349146.000035","message":{"type":"message","user":"U3P4C8G2C","text":"Pleased to meet you john. How's your day been?","bot_id":"B3P4C8FL0","ts":"1484349146.000035"}}
-  //{"type":"message","channel":"D3PRE3V6E","user":"U31L7F7UH","text":"my name is Vishnu","ts":"1484348847.000030","team":"T330K6MHV","event":"direct_message","match":["my name is Vishnu","Vishnu"]}
-  console.log('HERE: ' + JSON.stringify(message))
+
   const name = message.match[1];
-  //Stores name in the second array position of message. match[0] is the whole message. match[1] is the name.
-  // The message itself is stored in the first position based on my testing using the console.log statement above.
+
   controller.storage.users.get(message.user, function(err, user) {
     if(!user) {
       user = {
@@ -111,47 +114,9 @@ controller.hears(['What\'s your name', 'Who are you','What\'s your purpose', 'Wh
   }, 3000)
 })
 
-//Reminder & Advice functionality
+//Recipe functionality
 
-const reminders = [
-  'You are loved and you are love. :heart:',
-  '< https://www.youtube.com/watch?v=0j8frgmdvgc | This> exists, so things can\'t be that bad...',
-  'How many different things had to happen for you to be here right now? Seems like a lot more than just happy coincidences :)',
-  'Watch <https://www.youtube.com/watch?v=y6Sxv-sUYtM | this video> and let me know if you need anything else :)',
-  'Check <https://www.youtube.com/watch?v=09R8_2nJtjg | this> out ;)',
-  'You are dope AF. No one else knows you like you do, so if they can\'t see the wave, it\'s their own loss.',
-  'Get up and < https://www.youtube.com/watch?v=C_9HNEyLa4U | groove> for a minute. It might help your mood ;)',
-  'You are loved and you are love. No one can take that away from you, no matter what they say or do. Find your way through by looking inside you, I promise it gets better if you focus on working through all the pain that these lames put inside you.'
-]
-
-//const randomReminder = reminders[Math.floor(Math.random() * reminders.length)]
-
-const advice = [
-  'Will this matter six months from now?',
-  'There\'s a lot that can break your focus, but ask yourself: what would Beyonce do?',
-  'Stituations are rarely as extreme and absolute as they seem. Perhaps this is more grey than black and white?',
-  'Stay low and build. Let your success be your revenge.',
-  'Is there another way to look at the situation?',
-  'Are you being fair and compassionate with yourself, the way a close friend would be?',
-  'How would a third party see your current situation? Would they be critical or kind? Caring or harsh?',
-]
-
-//const randomAdvice = advice[Math.floor(Math.random() * advice.length)]
-
-controller.hears([ 'I need a reminder', 'Remind me of my worth'], 'direct_message,direct_mention,mention', (bot,message) => {
-  console.log('HERE: ' +JSON.stringify(message))
-  bot.api.reactions.add({
-    timestamp: message.ts,
-    channel: message.channel,
-    name: 'heartpulse'
-  })
-
-  const randomReminder = reminders[Math.floor(Math.random() * reminders.length)]
-
-  bot.reply(message, randomReminder)
-})
-
-controller.hears([ 'I need some advice' ], 'direct_message,direct_mention,mention', (bot,message) => {
+controller.hears([ 'Give me a recipe!', 'Can I get a recipe?', 'What should I cook?' ], 'direct_message,direct_mention,mention', (bot,message) => {
   bot.api.reactions.add({
     timestamp: message.ts,
     channel: message.channel,
@@ -164,11 +129,78 @@ controller.hears([ 'I need some advice' ], 'direct_message,direct_mention,mentio
         name: 'bulb'
     }), 2000})
 
-  const randomAdvice = advice[Math.floor(Math.random() * advice.length)]
 
-  setTimeout(function() {
-    bot.reply(message, randomAdvice)
-  }, 3000)
+    db.select('recipe as response').from('recipes')
+      .then(getRandom)
+      .then(function(randomRecipe) {
+        setTimeout(function() {
+          bot.reply(message, randomRecipe)
+        }, 3000)
+      })
+
+})
+
+//Food tip functionality
+
+controller.hears([ 'Give me a food tip!', 'Can I get a food tip?', 'Food tip' ], 'direct_message,direct_mention,mention', (bot,message) => {
+  bot.api.reactions.add({
+    timestamp: message.ts,
+    channel: message.channel,
+    name: 'thinking_face'
+  })
+    setTimeout(function () {
+      bot.api.reactions.add({
+        timestamp: message.ts,
+        channel: message.channel,
+        name: 'bulb'
+    }), 2000})
+
+    db.select('tip as response').from('foodtips')
+      .then(getRandom)
+      .then(function(randomTip) {
+        setTimeout(function() {
+          bot.reply(message, randomTip)
+        }, 3000)
+      })
+})
+
+//Reminder & Advice functionality
+
+controller.hears([ 'I need a reminder', 'Remind me of my worth'], 'direct_message,direct_mention,mention', (bot,message) => {
+  console.log('HERE: ' +JSON.stringify(message))
+  bot.api.reactions.add({
+    timestamp: message.ts,
+    channel: message.channel,
+    name: 'heartpulse'
+  })
+
+  db.select('reminders as response').from('reminders')
+    .then(getRandom)
+    .then(function(randomReminder) {
+      bot.reply(message, randomReminder)
+    })
+})
+
+controller.hears([ 'I need some advice', 'I need advice', 'Break me off some knowledge' ], 'direct_message,direct_mention,mention', (bot,message) => {
+  bot.api.reactions.add({
+    timestamp: message.ts,
+    channel: message.channel,
+    name: 'thinking_face'
+  })
+    setTimeout(function () {
+      bot.api.reactions.add({
+        timestamp: message.ts,
+        channel: message.channel,
+        name: 'bulb'
+    }), 2000})
+
+  db.select('advice as response').from('advice')
+    .then(getRandom)
+    .then(function(randomAdvice) {
+      setTimeout(function() {
+        bot.reply(message, randomAdvice)
+      }, 3000)
+    })
 })
 
 //Music suggestion functionality
@@ -198,7 +230,7 @@ controller.hears(['hip-hop', 'hip hop', 'rap'], 'direct_message,direct_mention,m
     channel: message.channel,
     name: 'thinking_face'
     })
-  setTimeout( function() {
+  setTimeout(function() {
     bot.api.reactions.add({
     timestamp: message.ts,
     channel: message.channel,
@@ -229,7 +261,6 @@ controller.hears(['pop', 'top 40', 'radio'], 'direct_message,direct_mention,ment
     bot.reply(message, 'Ok, let me know what you think of this: <https://www.youtube.com/playlist?list=PLpHBQZMQf9d7CB50Q450W6G-vm4fto88k | Lovely Pop>')
   }, 3000)
 })
-
 
 //Poetry & Slam Poetry
 
@@ -272,6 +303,7 @@ controller.hears(['R & B', 'Rhythm and Blues', 'Soul', 'Neo-Soul'], 'direct_mess
     bot.reply(message, 'Oooh I see you. Maybe this will help you find your own smooth operator: <https://www.youtube.com/playlist?list=PLpHBQZMQf9d5CH-upXX6J9lrzAcx_WSKX | Lovely R&B/Soul>')
   }, 3000)
 })
+
 //electronic
 
 controller.hears(['EDM', 'Electronic', 'Dance'], 'direct_message,direct_mention,mention', function(bot, message) {

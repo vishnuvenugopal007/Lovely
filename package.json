@@ -5,7 +5,10 @@
   "main": "slack_bot.js",
   "scripts": {
     "run": "node .",
-    "watch": "nodemon ."
+    "watch": "nodemon .",
+    "db:up": "knex migrate:latest",
+    "db:make": "knex migrate:make",
+    "db:down": "knex migrate:rollback"
   },
   "repository": {
     "type": "git",
@@ -25,6 +28,8 @@
     "body-parser": "^1.15.2",
     "botkit": "^0.4.9",
     "debug": "^2.6.0",
-    "express": "^4.14.1"
+    "express": "^4.14.1",
+    "knex": "^0.12.6",
+    "pg": "^6.1.2"
   }
 }
