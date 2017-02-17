@@ -70,7 +70,7 @@ controller.hears(['bad', 'not well', 'sad'], 'direct_message,direct_mention,ment
 })
 })
 
-controller.hears(['alright', 'fine', 'ok'], 'direct_message,direct_mention,mention', function(bot,message){
+controller.hears(['alright', 'fine' ], 'direct_message,direct_mention,mention', function(bot,message){
   console.log('HERE: ' + JSON.stringify(message))
   bot.api.reactions.add({
     timestamp: message.ts,
@@ -116,7 +116,7 @@ controller.hears(['What\'s your name', 'Who are you','What\'s your purpose', 'Wh
 
 //Recipe functionality
 
-controller.hears([ 'Give me a recipe!', 'Can I get a recipe?', 'What should I cook?' ], 'direct_message,direct_mention,mention', (bot,message) => {
+controller.hears([ 'Give me a recipe!', 'Can I get a recipe?', 'What should I cook?', 'Recipe' ], 'direct_message,direct_mention,mention', (bot,message) => {
   bot.api.reactions.add({
     timestamp: message.ts,
     channel: message.channel,
@@ -201,6 +201,30 @@ controller.hears([ 'I need some advice', 'I need advice', 'Break me off some kno
         bot.reply(message, randomAdvice)
       }, 3000)
     })
+})
+
+//Inspiration functionality
+
+controller.hears(['I need some inspiration', 'Inspire me', 'Show me the light'], 'direct_message,direct_mention, mention', function(bot, message){
+  bot.api.reactions.add({
+    timestamp: message.ts,
+    channel: message.channel,
+    name:'thinking_face'
+  })
+  setTimeout(function () {
+    bot.api.reactions.add({
+      timestamp: message.ts,
+      channel: message.channel,
+      name: 'bulb'
+    }), 2000 })
+
+    db.select('inspiration as response').from('inspiration')
+      .then(getRandom)
+      .then(function(randomInspiration) {
+        setTimeout(function() {
+          bot.reply(message, randomInspiration)
+        }, 3000)
+      })
 })
 
 //Music suggestion functionality
