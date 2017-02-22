@@ -9,6 +9,7 @@ Technologies:
 - PostgreSQL
 - Slack RTM API
 - Knex.js
+- Botkit frame work
 
 Current Functionalities:
 
