@@ -364,3 +364,25 @@ controller.hears(['EDM', 'Electronic', 'Dance'], 'direct_message,direct_mention,
   }, 3000)
 >>>>>>> 394c28c0403c0c52593862e0070a05ec66d2b482
 })
+
+//Fresh sounds
+
+controller.hears(['Next', 'Something Fresh', 'Fresh', 'Future'], 'direct_message,direct_mention,mention', function(bot, message){
+  console.log('HERE: ' +JSON.stringify(message))
+  bot.api.reactions.add({
+    timestamp: message.ts,
+    channel: message.channel,
+    name: 'thinking_face'
+  })
+  setTimeout( function() {
+    bot.api.reactions.add({
+      timestamp: message.ts,
+      channel: message.channel,
+      name: 'bulb'
+    })
+  }, 1000);
+
+  setTimeout(function() {
+    bot.reply(message, 'This one will make you the envy of all of your friends. Put them onto something new: < | Lovely Future >')
+  }, 3000)
+})
