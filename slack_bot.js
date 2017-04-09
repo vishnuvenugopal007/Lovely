@@ -348,3 +348,25 @@ controller.hears(['EDM', 'Electronic', 'Dance'], 'direct_message,direct_mention,
   bot.reply(message, 'Get lost in this playlist: <https://www.youtube.com/playlist?list=PLpHBQZMQf9d7p9w5wBjA6Fpn87qpEDB4k | Lovely Electronica>')
   }, 3000)
 })
+
+//Fresh sounds
+
+controller.hears(['Next', 'Something Fresh', 'Fresh', 'Future'], 'direct_message,direct_mention,mention', function(bot, message){
+  console.log('HERE: ' +JSON.stringify(message))
+  bot.api.reactions.add({
+    timestamp: message.ts,
+    channel: message.channel,
+    name: 'thinking_face'
+  })
+  setTimeout( function() {
+    bot.api.reactions.add({
+      timestamp: message.ts,
+      channel: message.channel,
+      name: 'bulb'
+    })
+  }, 1000);
+
+  setTimeout(function() {
+    bot.reply(message, 'This one will make you the envy of all of your friends. Put them onto something new: < | Lovely Future >')
+  }, 3000)
+})
