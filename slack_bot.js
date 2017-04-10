@@ -349,7 +349,7 @@ controller.hears(['EDM', 'Electronic', 'Dance'], 'direct_message,direct_mention,
   }, 3000)
 })
 
-//Fresh sounds
+//Summer sounds
 
 controller.hears(['Summer', 'Summer Sounds', 'Summer Music'], 'direct_message,direct_mention,mention', function(bot, message){
   console.log('HERE: ' +JSON.stringify(message))
