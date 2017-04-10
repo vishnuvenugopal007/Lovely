@@ -351,7 +351,7 @@ controller.hears(['EDM', 'Electronic', 'Dance'], 'direct_message,direct_mention,
 
 //Fresh sounds
 
-controller.hears(['Next', 'Something Fresh', 'Fresh', 'Future'], 'direct_message,direct_mention,mention', function(bot, message){
+controller.hears(['Summer', 'Summer Sounds', 'Summer Music'], 'direct_message,direct_mention,mention', function(bot, message){
   console.log('HERE: ' +JSON.stringify(message))
   bot.api.reactions.add({
     timestamp: message.ts,
@@ -367,6 +367,6 @@ controller.hears(['Next', 'Something Fresh', 'Fresh', 'Future'], 'direct_message
   }, 1000);
 
   setTimeout(function() {
-    bot.reply(message, 'This one will make you the envy of all of your friends. Put them onto something new: < | Lovely Future >')
+    bot.reply(message, 'Get the party started or just vibe out to this one: < https://www.youtube.com/playlist?list=PLpHBQZMQf9d7e74c949da_8NfN8HAchUz | Lovely Future Sounds >')
   }, 3000)
 })
