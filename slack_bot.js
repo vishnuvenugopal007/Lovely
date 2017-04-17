@@ -370,3 +370,24 @@ controller.hears(['Summer', 'Summer Sounds', 'Summer Music'], 'direct_message,di
     bot.reply(message, 'Get the party started or just vibe out to this one: < https://www.youtube.com/playlist?list=PLpHBQZMQf9d7e74c949da_8NfN8HAchUz | Lovely Future Sounds >')
   }, 3000)
 })
+
+//Feel good
+controller.hears(['I want to smile', 'Happy Music', 'Summer Music'], 'direct_message,direct_mention,mention', function(bot, message){
+  console.log('HERE: ' +JSON.stringify(message))
+  bot.api.reactions.add({
+    timestamp: message.ts,
+    channel: message.channel,
+    name: 'thinking_face'
+  })
+  setTimeout( function() {
+    bot.api.reactions.add({
+      timestamp: message.ts,
+      channel: message.channel,
+      name: 'bulb'
+    })
+  }, 1000);
+
+  setTimeout(function() {
+    bot.reply(message, 'Enjoy :) < https://www.youtube.com/playlist?list=PLpHBQZMQf9d6aPARZtoepzNeKrfGLhS9K | Lovely Feel Good >')
+  }, 3000)
+})
